@@ -23,6 +23,7 @@ import com.openxc.measurements.BrakePedalStatus;
 import com.openxc.measurements.EngineSpeed;
 import com.openxc.measurements.FuelConsumed;
 import com.openxc.measurements.FuelLevel;
+import com.openxc.measurements.Heading;
 import com.openxc.measurements.HeadlampStatus;
 import com.openxc.measurements.IgnitionStatus;
 import com.openxc.measurements.Latitude;
@@ -64,6 +65,22 @@ public class VehicleDashboardActivity extends Activity {
     private TextView mAndroidLongitudeView;
     private TextView mWiperStatusView;
     private TextView mHeadlampStatusView;
+    private TextView mHeadingView;
+    
+    
+    
+    Heading.Listener mHeadingListener = 
+    		new Heading.Listener(){
+    	public void receive(Measurement measurement) {
+    		final Heading heading =
+    				(Heading) measurement;
+    		mHandler.post(new Runnable() {
+    			public void run() {
+    				mHeadingView.setText(heading.toString());
+    			}
+    		});
+    	}
+    };
 
     WindshieldWiperStatus.Listener mWiperListener =
             new WindshieldWiperStatus.Listener() {
@@ -280,6 +297,7 @@ public class VehicleDashboardActivity extends Activity {
                     ).getService();
 
             try {
+
                 mVehicleManager.addListener(SteeringWheelAngle.class,
                         mSteeringWheelListener);
                 mVehicleManager.addListener(VehicleSpeed.class,
@@ -312,6 +330,8 @@ public class VehicleDashboardActivity extends Activity {
                         mLatitude);
                 mVehicleManager.addListener(Longitude.class,
                         mLongitude);
+            	mVehicleManager.addListener(Heading.class,
+            			mHeadingListener);
             } catch(VehicleServiceException e) {
                 Log.w(TAG, "Couldn't add listeners for measurements", e);
             } catch(UnrecognizedMeasurementTypeException e) {
@@ -369,10 +389,13 @@ public class VehicleDashboardActivity extends Activity {
                 R.id.latitude);
         mLongitudeView = (TextView) findViewById(
                 R.id.longitude);
+        mHeadingView = (TextView) findViewById(
+        		R.id.heading);
         mAndroidLatitudeView = (TextView) findViewById(
                 R.id.android_latitude);
         mAndroidLongitudeView = (TextView) findViewById(
                 R.id.android_longitude);
+        
     }
 
     @Override

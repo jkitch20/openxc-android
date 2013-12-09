@@ -81,5 +81,6 @@
     <string name="door_status_label">Door Status</string>
     <string name="left_turn">Left Turn</string>
     <string name="right_turn">Right Turn</string>
+    <string name="heading_label">Heading</string>
 
 </resources>

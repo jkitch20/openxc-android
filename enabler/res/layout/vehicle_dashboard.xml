@@ -170,6 +170,16 @@
                 android:id="@+id/longitude"
                 style="@style/ItemData" />
         </TableRow>
+        
+        <TableRow style="@style/ItemRow">
+            <TextView
+                android:id="@+id/heading_label"
+                style="@style/ItemLabel"
+                android:text="@string/heading_label" />
+            <TextView
+                android:id="@+id/heading"
+                style="@style/ItemData" />
+        </TableRow>
 
         <TableRow style="@style/ItemRow">
             <TextView
